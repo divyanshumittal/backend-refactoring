@@ -17,15 +17,17 @@ export class GildedRose {
         this.items = items;
     }
 
+    hasSellByPassed = (i) => this.items[i].sellIn < 0;
+
+    isQualityGood = (i) => this.items[i].quality > 0;
+
     updateAgedBrie = (i) => {
         if (this.items[i].quality < 50) {
             this.items[i].quality = this.items[i].quality + 1;
         }
         this.items[i].sellIn = this.items[i].sellIn - 1;
-        if (this.items[i].sellIn < 0) {
-            if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-            }
+        if (this.hasSellByPassed(i) && this.items[i].quality < 50) {
+            this.items[i].quality = this.items[i].quality + 1;
         }
     }
 
@@ -44,32 +46,30 @@ export class GildedRose {
             }
         }
         this.items[i].sellIn = this.items[i].sellIn - 1;
-        if (this.items[i].sellIn < 0) {
+        if (this.hasSellByPassed(i)) {
             this.items[i].quality = this.items[i].quality - this.items[i].quality
         }
     }
 
     updateConjured = (i) => {
-        if (this.items[i].quality > 0) {
-            this.items[i].quality = this.items[i].quality - 1;
-            this.items[i].quality = this.items[i].quality - 1;
+        if (this.isQualityGood(i)) {
+            this.items[i].quality = this.items[i].quality - 2;
         }
         this.items[i].sellIn = this.items[i].sellIn - 1;
-        if (this.items[i].sellIn < 0) {
-            if (this.items[i].quality > 0) {
-                this.items[i].quality = this.items[i].quality - 1
-                this.items[i].quality = this.items[i].quality - 1;
+        if (this.hasSellByPassed(i)) {
+            if (this.isQualityGood(i)) {
+                this.items[i].quality = this.items[i].quality - 2;
             }
         }
     };
 
     updateDefaultItem = (i) => {
-        if (this.items[i].quality > 0) {
+        if (this.isQualityGood(i)) {
             this.items[i].quality = this.items[i].quality - 1;
         }
         this.items[i].sellIn = this.items[i].sellIn - 1;
-        if (this.items[i].sellIn < 0) {
-            if (this.items[i].quality > 0) {
+        if (this.hasSellByPassed(i)) {
+            if (this.isQualityGood(i)) {
                 this.items[i].quality = this.items[i].quality - 1;
             }
         }
