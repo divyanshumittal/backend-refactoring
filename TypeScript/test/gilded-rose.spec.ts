@@ -22,7 +22,8 @@ const expectedOutputAfter1Day = [
       sellIn: 4,
       quality: 50
     },
-    { name: 'Conjured Mana Cake', sellIn: 2, quality: 4 }
+    { name: 'Conjured Mana Cake', sellIn: 2, quality: 4 },
+    { name: 'Random Item', sellIn: 0, quality: 0 }
 ];
 
 const expectedOutputAfter2Days = [
@@ -46,7 +47,8 @@ const expectedOutputAfter2Days = [
       sellIn: 3,
       quality: 50
     },
-    { name: 'Conjured Mana Cake', sellIn: 1, quality: 2 }
+    { name: 'Conjured Mana Cake', sellIn: 1, quality: 2 },
+    { name: 'Random Item', sellIn: -1, quality: 0 }
 ];
 
 const expectedOutputAfter3Days = [
@@ -70,7 +72,8 @@ const expectedOutputAfter3Days = [
       sellIn: 2,
       quality: 50
     },
-    { name: 'Conjured Mana Cake', sellIn: 0, quality: 0 }
+    { name: 'Conjured Mana Cake', sellIn: 0, quality: 0 },
+    { name: 'Random Item', sellIn: -2, quality: 0 }
 ];
 
 const calculateQuality = (days) => {
@@ -83,8 +86,8 @@ const calculateQuality = (days) => {
         new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
         new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
         new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
-        // this conjured item does not work properly yet
-        new Item("Conjured Mana Cake", 3, 6)];
+        new Item("Conjured Mana Cake", 3, 6),
+        new Item("Random item", 1, 1)];
     const gildedRose = new GildedRose(items);
     let output;
     for (let i = 0; i < days; i++) {
@@ -307,6 +310,29 @@ describe('Gilded Rose', function () {
             expect(output[8].name).to.equal('Conjured Mana Cake');
             expect(output[8].sellIn).to.equal(expectedOutputAfter3Days[8].sellIn);
             expect(output[8].quality).to.equal(expectedOutputAfter3Days[8].quality);
+        });
+    });
+
+    describe('Random item', function() {
+        it('test Random item after 1 day', function() {
+            const output = calculateQuality(1);
+            expect(output[9].name).to.equal('Random item');
+            expect(output[9].sellIn).to.equal(expectedOutputAfter1Day[9].sellIn);
+            expect(output[9].quality).to.equal(expectedOutputAfter1Day[9].quality);
+        });
+    
+        it('test Random item after 2 days', function() {
+            const output = calculateQuality(2);
+            expect(output[9].name).to.equal('Random item');
+            expect(output[9].sellIn).to.equal(expectedOutputAfter2Days[9].sellIn);
+            expect(output[9].quality).to.equal(expectedOutputAfter2Days[9].quality);
+        });
+    
+        it('test Random item after 3 days', function() {
+            const output = calculateQuality(3);
+            expect(output[9].name).to.equal('Random item');
+            expect(output[9].sellIn).to.equal(expectedOutputAfter3Days[9].sellIn);
+            expect(output[9].quality).to.equal(expectedOutputAfter3Days[9].quality);
         });
     });
 
